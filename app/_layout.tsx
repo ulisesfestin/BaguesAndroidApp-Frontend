@@ -1,37 +1,44 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { Stack, useSegments, router } from "expo-router";
+import { useEffect } from "react";
+import { AuthProvider, useAuth } from "../context/AuthContext";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+const StackLayout = () => {
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  const { authState } = useAuth();
+  const segments = useSegments();
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    console.log('authState', authState);
+    console.log('segments', segments);
+    const inAuthGroup = segments[0] === '(protected)';
+    console.log(segments)
+    
+    if (!authState?.authenticated && inAuthGroup) {
+      console.log('Redirecting to / because user is not authenticated');
 
-  if (!loaded) {
-    return null;
-  }
+      router.replace('/');
+      console.log('segments', segments);
+    } else if (authState?.authenticated === true) {
+      console.log('Redirecting to (protected) because user is authenticated');
+      router.replace('/(protected)/');
+    }
+  }, [authState]);
+  
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+  <Stack>
+    <Stack.Screen name="index" options={{headerShown: false}} />
+    <Stack.Screen name="(protected)" options={{headerShown: false}} />
+  </Stack>
   );
-}
+};
+
+const RootLayoutNav = () => {
+	return (
+		<AuthProvider>
+			<StackLayout />
+		</AuthProvider>
+	);
+};
+
+export default RootLayoutNav;
