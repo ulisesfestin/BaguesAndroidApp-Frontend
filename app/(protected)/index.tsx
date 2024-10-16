@@ -2,12 +2,14 @@ import { View, Text, Button } from 'react-native'
 import React from 'react'
 import { Role, useAuth } from '../../context/AuthContext'
 import WithRole from '../../components/WithRole'
+import { router } from 'expo-router'
 
 const Page = () => {
   const { authState, onLogout } = useAuth();
 
   const onLogoutPressed = () => {
     onLogout!();
+    router.dismissAll();
   };
 
   return (

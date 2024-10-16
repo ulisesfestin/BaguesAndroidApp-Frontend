@@ -1,12 +1,163 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react';
+import { ScrollView, Text, TextInput, Button, Image, Alert, StyleSheet } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { storage } from '../config/firebaseConfig'; 
+import axios from 'axios';
 
 const AddProduct = () => {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [code, setCode] = useState('');
+  const [stock, setStock] = useState('');
+  const [imageUri, setImageUri] = useState<string | null>('');
+  const [loading, setLoading] = useState(false);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
+  };
+
+  const uploadImageToFirebase = async () => {
+    if (!imageUri) return null;
+
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+    const storageRef = ref(storage, `products/images/${new Date().getTime()}.jpg`);
+    const snapshot = await uploadBytes(storageRef, blob);
+    const url = await getDownloadURL(snapshot.ref);
+
+    return url;
+  };
+
+  async function deleteImageFromFirebase(filePath: string) {
+    const storageRef = ref(storage, filePath);
+    await deleteObject(storageRef);
+  };
+
+  const handleSubmit = async () => {
+
+    if (!name || !description || !price || !code || !stock || !imageUri) {
+      Alert.alert("Error", "Por favor, completa todos los campos.");
+      return;
+    }
+
+    setLoading(true);
+
+    const imageUrl = await uploadImageToFirebase(); 
+
+    const getPathFromUrl = (url: string) => {
+      const decodedUrl = decodeURIComponent(url);
+      const pathMatch = decodedUrl.match(/\/o\/(.*?)\?/);
+      return pathMatch ? pathMatch[1] : null;
+    };
+
+    const imagePath = imageUrl ? getPathFromUrl(imageUrl) : null;
+
+    const productData = {
+      name,
+      description,
+      price,
+      code,
+      stock,
+      imageUrl,
+    };
+
+    try {
+      const response = await axios.post('http://192.168.100.10:8080/api/products', productData);
+      Alert.alert('Product added successfully');
+    } catch (error) {
+      Alert.alert('Error adding product');
+      if (imagePath) {
+        await deleteImageFromFirebase(imagePath);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <View>
-      <Text>addproduct</Text>
-    </View>
-  )
-}
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.label}>Product Name</Text>
+      <TextInput
+        style={styles.input}
+        value={name}
+        onChangeText={setName}
+        placeholder="Name"
+      />
+
+      <Text style={styles.label}>Description</Text>
+      <TextInput
+        style={styles.input}
+        value={description}
+        onChangeText={setDescription}
+        placeholder="..."
+      />
+
+      <Text style={styles.label}>Price</Text>
+      <TextInput
+        style={styles.input}
+        value={price}
+        onChangeText={setPrice}
+        keyboardType="numeric"
+        placeholder="$ "
+      />
+
+      <Text style={styles.label}>Product Code</Text>
+      <TextInput
+        style={styles.input}
+        value={code}
+        onChangeText={setCode}
+        placeholder="See in the catalog."
+      />
+
+      <Text style={styles.label}>Stock</Text>
+      <TextInput
+        style={styles.input}
+        value={stock}
+        onChangeText={setStock}
+        keyboardType="numeric"
+        placeholder="..."
+      />
+
+      <Button title="Seleccionar Imagen" onPress={pickImage} />
+      {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+
+      <Button title={loading ? 'Enviando...' : 'Añadir Producto'} onPress={handleSubmit} disabled={loading} />
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    marginBottom: 12,
+    paddingHorizontal: 8,
+    borderRadius: 5,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginTop: 15,
+    alignSelf: 'center',
+  },
+});
 
 export default AddProduct;

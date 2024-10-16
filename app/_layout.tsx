@@ -16,11 +16,11 @@ const StackLayout = () => {
     if (!authState?.authenticated && inAuthGroup) {
       console.log('Redirecting to / because user is not authenticated');
 
-      router.replace('/');
+      router.back();
       console.log('segments', segments);
     } else if (authState?.authenticated === true) {
       console.log('Redirecting to (protected) because user is authenticated');
-      router.replace('/(protected)/');
+      router.push('/(protected)/');
     }
   }, [authState]);
   
