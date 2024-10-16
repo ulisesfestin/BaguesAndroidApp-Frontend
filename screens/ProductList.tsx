@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator } from 'react-native';
-import axios from 'axios';
+import apiClient from '../api/apiClient';
 
 interface Product {
   id: number;
@@ -20,7 +20,7 @@ export default function ProductList() {
     // Función para obtener los productos desde la API
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://192.168.100.10:8080/products/all');
+        const response = await apiClient.get('/products/all');
         setProducts(response.data); // Asume que la API devuelve un array de productos
       } catch (error) {
         console.error("Error al obtener productos:", error);
