@@ -21,8 +21,8 @@ const Page = () => {
       <WithRole role={Role.ADMIN}>
         <Text>Only visible for Admin</Text>
       </WithRole>
-      <WithRole role={Role.USER}>
-        <Text>Only visible for users</Text>
+      <WithRole role={Role.CLIENT}>
+        <Text>Only visible for Clients</Text>
       </WithRole>
     </View>
   )

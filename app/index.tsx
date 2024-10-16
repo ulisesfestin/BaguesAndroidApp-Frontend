@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button, KeyboardAvoidingView } from 'react-native'
+import { View, Text, TextInput, Button, KeyboardAvoidingView, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 
@@ -7,20 +7,12 @@ const Page = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const onAdminSignIn = async () => {
-    onLogin!('admin', 'admin')
-  }
-
-  const onUserSignIn = async () => {
-    onLogin!('user', 'password')
-  }
-
-  const onVendorSignIn = async () => {
-    onLogin!('vendor', 'password')
+  const handleLogin = () => {
+    onLogin!(username, password)
   }
 
   return (
-    <KeyboardAvoidingView>
+    <KeyboardAvoidingView style={styles.container}>
         <Text>Sign In</Text>
         <TextInput 
             placeholder="Username"
@@ -32,11 +24,20 @@ const Page = () => {
             value={password}
             onChangeText={setPassword}
         />
-        <Button title="Sign In as Admin" onPress={onAdminSignIn} />
-        <Button title="Sign In as User" onPress={onUserSignIn} />
-        <Button title="Sign in as Vendor" onPress={onVendorSignIn} />
+        <Button title="Sign In" onPress={handleLogin} />
+        
     </KeyboardAvoidingView>
   )
 }
+
+// Stylesheet
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
+
 
 export default Page
