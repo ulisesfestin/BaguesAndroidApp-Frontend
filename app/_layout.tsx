@@ -11,7 +11,7 @@ const StackLayout = () => {
     const inAuthGroup = segments[0] === '(protected)';
     
     if (!authState?.authenticated && inAuthGroup) {
-      router.back();
+      router.navigate("/");
     } else if (authState?.authenticated === true) {
       router.push('/(protected)/');
     }
