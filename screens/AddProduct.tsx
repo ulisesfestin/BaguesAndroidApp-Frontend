@@ -3,7 +3,7 @@ import { ScrollView, Text, TextInput, Button, Image, Alert, StyleSheet } from 'r
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage } from '../config/firebaseConfig'; 
-import axios from 'axios';
+import apiClient from '../api/apiClient';
 
 const AddProduct = () => {
   const [name, setName] = useState('');
@@ -72,7 +72,7 @@ const AddProduct = () => {
     };
 
     try {
-      const response = await axios.post('http://192.168.100.10:8080/api/products', productData);
+      await apiClient.post('/products/save', productData);
       Alert.alert('Product added successfully');
     } catch (error) {
       Alert.alert('Error adding product');
