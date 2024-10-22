@@ -1,8 +1,11 @@
 import axios from 'axios';
+import Constants from 'expo-constants';
+
+const { baseURL } = Constants.expoConfig.extra;
 
 // Configura la instancia de Axios
 const apiClient = axios.create({
-  baseURL: 'http://192.168.18.27:8080', // Reemplaza con la URL base de tu API
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
