@@ -18,7 +18,7 @@ const options = [
 ];
 
 
-export default function VendorIndex({navigation}: {navigation: NavigationProp<any>}) {
+export default function ClientIndex({navigation}: {navigation: NavigationProp<any>}) {
     
     return (
       <View style={styles.container}>

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, TextInput, Button, Image, Alert, StyleSheet } from 'react-native';
+import { ScrollView, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage } from '../config/firebaseConfig'; 
 import apiClient from '../api/apiClient';
+import { showAlert } from '../utils/alerts';
 
 const AddProduct = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [code, setCode] = useState('');
-  const [stock, setStock] = useState('');
   const [imageUri, setImageUri] = useState<string | null>('');
   const [loading, setLoading] = useState(false);
 
@@ -45,8 +45,8 @@ const AddProduct = () => {
 
   const handleSubmit = async () => {
 
-    if (!name || !description || !price || !code || !stock || !imageUri) {
-      Alert.alert("Error", "Por favor, completa todos los campos.");
+    if (!name || !description || !price || !code || !imageUri) {
+      showAlert("Please fill all fields and select an image");
       return;
     }
 
@@ -67,15 +67,14 @@ const AddProduct = () => {
       description,
       price,
       code,
-      stock,
       imageUrl,
     };
 
     try {
       await apiClient.post('/products/save', productData);
-      Alert.alert('Product added successfully');
+      showAlert('Product added successfully');
     } catch (error) {
-      Alert.alert('Error adding product');
+      showAlert('Error adding product');
       if (imagePath) {
         await deleteImageFromFirebase(imagePath);
       }
@@ -119,19 +118,10 @@ const AddProduct = () => {
         placeholder="See in the catalog."
       />
 
-      <Text style={styles.label}>Stock</Text>
-      <TextInput
-        style={styles.input}
-        value={stock}
-        onChangeText={setStock}
-        keyboardType="numeric"
-        placeholder="..."
-      />
-
-      <Button title="Seleccionar Imagen" onPress={pickImage} />
+      <Button title="Upload an image" onPress={pickImage} />
       {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
 
-      <Button title={loading ? 'Enviando...' : 'Añadir Producto'} onPress={handleSubmit} disabled={loading} />
+      <Button title={loading ? 'Loading...' : 'Add Product'} onPress={handleSubmit} disabled={loading} />
     </ScrollView>
   );
 };

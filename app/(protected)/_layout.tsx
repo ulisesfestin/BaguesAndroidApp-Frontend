@@ -1,7 +1,8 @@
 import { Drawer } from 'expo-router/drawer'
 import { Ionicons } from '@expo/vector-icons'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { Role, useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
+import { Role } from '@/types/types';
 
 
 const DrawerLayout = () => {
@@ -21,12 +22,12 @@ const DrawerLayout = () => {
             }} 
         />
         <Drawer.Screen 
-            name="news"
-            redirect={authState?.role !== Role.USER}  
+            name="client"
+            redirect={authState?.role !== Role.CLIENT}  
             options={{
-                headerTitle: 'Newsfeed',
+                headerTitle: 'Client Area',
                 headerTitleAlign: 'center',
-                drawerLabel: 'News',
+                drawerLabel: 'Client',
                 drawerIcon: ({ size, color }) => 
                     <Ionicons name="newspaper-outline" size={size} color={color} />
             }} 
@@ -43,12 +44,12 @@ const DrawerLayout = () => {
             }} 
         />
         <Drawer.Screen 
-            name="vendor"
-            redirect={authState?.role !== Role.VENDOR} 
+            name="seller"
+            redirect={authState?.role !== Role.SELLER} 
             options={{
-                headerTitle: 'Vendor Area',
+                headerTitle: 'Seller Area',
                 headerTitleAlign: 'center',
-                drawerLabel: 'Vendor',
+                drawerLabel: 'Seller',
                 drawerIcon: ({ size, color }) => 
                     <Ionicons name="business-outline" size={size} color={color} />
             }}

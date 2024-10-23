@@ -8,7 +8,7 @@ import MyProfile from '@/screens/MyProfile';
 
 const VendorStack = createStackNavigator();
 
-export default function AdminScreen() {
+export default function SellerScreen() {
   return (
     <VendorStack.Navigator>
       <VendorStack.Screen 

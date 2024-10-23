@@ -2,19 +2,7 @@ import { jwtDecode } from "jwt-decode";
 import apiClient, { setAuthToken } from "../api/apiClient";
 import { createContext, useContext, useState } from "react";
 import { Alert } from "react-native";
-
-export enum Role {
-    ADMIN = "ADMIN",
-    SELLER = "SELLER",
-    CLIENT = "CLIENT",
-}
-
-interface AuthProps {
-    authState: {authenticated: boolean | null; username: string | null; role: Role | null};
-    onLogin: (username: string, password: string) => void;
-    onRegister: (username: string, email: string, firstName: string, lastName: string, password: string, phoneNumber: string) => void;
-    onLogout: () => void;
-}
+import { AuthProps, Role } from "../types/types";
 
 const AuthContext = createContext<Partial<AuthProps>>({});
 

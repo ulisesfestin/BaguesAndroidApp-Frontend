@@ -1,29 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import apiClient from '../api/apiClient';
+import { showAlert } from '@/utils/alerts';
+import { Product } from '@/types/types';
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  code: string;
-  stock: number;
-  imageUrl?: string;
-}
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Función para obtener los productos desde la API
     const fetchProducts = async () => {
       try {
         const response = await apiClient.get('/products/all');
-        setProducts(response.data); // Asume que la API devuelve un array de productos
+        setProducts(response.data); 
       } catch (error) {
-        console.error("Error al obtener productos:", error);
+        showAlert("There was an error fetching the products");
       } finally {
         setLoading(false);
       }
@@ -46,7 +38,6 @@ export default function ProductList() {
           <Text>{item.description}</Text>
           <Text>Precio: ${item.price}</Text>
           <Text>Código: {item.code}</Text>
-          <Text>Stock: {item.stock}</Text>
           {item.imageUrl && (
             <Image 
               source={{uri: item.imageUrl}}
