@@ -9,7 +9,7 @@ export interface Product {
 }
 
 export interface AuthProps {
-    authState: {authenticated: boolean | null; username: string | null; role: Role | null};
+    authState: {authenticated: boolean | null; username: string | null; role: Role | null; id: string | null};
     onLogin: (username: string, password: string) => void;
     onRegister: (username: string, email: string, firstName: string, lastName: string, password: string, phoneNumber: string) => void;
     onLogout: () => void;

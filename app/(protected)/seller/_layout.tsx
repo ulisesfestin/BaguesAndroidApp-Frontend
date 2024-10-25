@@ -18,7 +18,11 @@ export default function SellerScreen() {
       />
       <VendorStack.Screen 
         name="ProductList"
-        component={ProductList} 
+        component={ProductList}
+        options={{
+          headerTitle: 'Product List',
+          headerTitleAlign: 'center',
+        }} 
       />
       <VendorStack.Screen 
         name="MyOrders"  
