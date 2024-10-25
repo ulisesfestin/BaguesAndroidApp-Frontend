@@ -20,3 +20,13 @@ export enum Role {
     SELLER = "SELLER",
     CLIENT = "CLIENT",
 }
+
+export interface Order {
+    id: number;
+    type: string;
+    status: string;
+    details: {
+      productName: string;
+      quantity: number;
+    }[];
+}

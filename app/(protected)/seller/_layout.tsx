@@ -28,7 +28,7 @@ export default function SellerScreen() {
         name="MyOrders"  
         component={MyOrders}
         options={{
-            headerTitle: 'Add Product',
+            headerTitle: 'My Orders',
             headerTitleAlign: 'center',
         }} 
       />
