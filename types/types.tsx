@@ -30,3 +30,13 @@ export interface Order {
       quantity: number;
     }[];
 }
+
+export interface User {
+    id: number;
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    role: string;
+}
