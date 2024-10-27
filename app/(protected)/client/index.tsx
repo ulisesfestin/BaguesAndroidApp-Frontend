@@ -8,7 +8,7 @@ const options = [
     value: 'ProductList'
   },
   {
-    label: 'See my orders',
+    label: 'See my purchases',
     value: 'MyOrders'
   },
   {

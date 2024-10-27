@@ -13,8 +13,8 @@ const options = [
     value: 'UserList'
   },
   {
-    label: 'Option 3',
-    value: 'AdminHome'
+    label: 'Manage orders',
+    value: 'OrdersAdmin'
   }
 ];
 

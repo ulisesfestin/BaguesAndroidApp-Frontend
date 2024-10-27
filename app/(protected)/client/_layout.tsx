@@ -24,7 +24,7 @@ export default function ClientScreen() {
         name="MyOrders"  
         component={MyOrders}
         options={{
-            headerTitle: 'Add Product',
+            headerTitle: 'My Purchases',
             headerTitleAlign: 'center',
         }} 
       />
