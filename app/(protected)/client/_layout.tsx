@@ -1,37 +1,37 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import VendorIndex from '.';
+import ClientIndex from '.';
 import ProductList from '@/screens/ProductList';
 import MyOrders from '@/screens/MyOrders';
 import MyProfile from '@/screens/MyProfile';
 
 
-const VendorStack = createStackNavigator();
+const ClientStack = createStackNavigator();
 
-export default function AdminScreen() {
+export default function ClientScreen() {
   return (
-    <VendorStack.Navigator>
-      <VendorStack.Screen 
+    <ClientStack.Navigator>
+      <ClientStack.Screen 
         name="index" 
-        component={VendorIndex} 
+        component={ClientIndex} 
         options={{headerShown: false}}
       />
-      <VendorStack.Screen 
+      <ClientStack.Screen 
         name="ProductList"
         component={ProductList} 
       />
-      <VendorStack.Screen 
+      <ClientStack.Screen 
         name="MyOrders"  
         component={MyOrders}
         options={{
-            headerTitle: 'Add Product',
+            headerTitle: 'My Purchases',
             headerTitleAlign: 'center',
         }} 
       />
-      <VendorStack.Screen 
+      <ClientStack.Screen 
         name="MyProfile"  
         component={MyProfile} 
       />
-    </VendorStack.Navigator>
+    </ClientStack.Navigator>
   );
 }

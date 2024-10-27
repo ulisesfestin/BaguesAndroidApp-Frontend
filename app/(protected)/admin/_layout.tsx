@@ -4,6 +4,7 @@ import AdminHome from '../../../screens/AdminHome';
 import AddProduct from '../../../screens/AddProduct';
 import UserList from '../../../screens/UserList';
 import AdminIndex from '.';
+import OrdersAdmin from '@/screens/OrdersAdmin';
 
 
 const AdminStack = createStackNavigator();
@@ -25,6 +26,14 @@ export default function AdminScreen() {
         component={AddProduct}
         options={{
             headerTitle: 'Add Product',
+            headerTitleAlign: 'center',
+        }} 
+      />
+      <AdminStack.Screen 
+        name="OrdersAdmin"  
+        component={OrdersAdmin}
+        options={{
+            headerTitle: 'Manage Orders',
             headerTitleAlign: 'center',
         }} 
       />

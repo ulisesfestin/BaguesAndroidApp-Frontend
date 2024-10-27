@@ -1,24 +1,17 @@
-import { View, Text, Image, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext'; 
-import apiClient from '../api/apiClient'; 
-import { Order } from '../types/types'; 
-import { showAlert } from '@/utils/alerts';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, Button } from "react-native";
+import React, { useEffect, useState } from "react";
+import apiClient from "../api/apiClient"; 
+import { Order } from "../types/types"; 
+import { showAlert } from "@/utils/alerts";
 
-export default function MyOrders() {
-  const { authState } = useAuth(); 
+const OrdersAdmin = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const userId = authState?.id; 
-      if (!userId) {
-        return;
-      }
-
       try {
-        const response = await apiClient.get(`/orders/user/${userId}`);
+        const response = await apiClient.get('/orders');
         setOrders(response.data);
       } catch (error) {
         showAlert('There was an error fetching the orders.');
@@ -28,7 +21,33 @@ export default function MyOrders() {
     };
 
     fetchOrders();
-  }, [authState]);
+  }, []);
+
+  const handleUpdateOrder = async (orderId: number, newStatus: string) => {
+    try {
+      const orderToUpdate = orders.find(order => order.id === orderId);
+      if (!orderToUpdate) return;
+
+      const { id, ...orderWithoutId } = { ...orderToUpdate, status: newStatus };
+
+      await apiClient.put(`/orders/${orderId}`, orderWithoutId);
+      setOrders((prevOrders) => prevOrders.map(order => 
+        order.id === orderId ? { ...order, status: newStatus } : order
+      ));
+      showAlert('Order updated successfully.');
+
+    } catch (error) {
+      showAlert('There was an error updating the order.');
+    }
+  };
+
+  const handleAcceptOrder = (orderId: number) => {
+    handleUpdateOrder(orderId, 'Approved');
+  };
+
+  const handleRejectOrder = (orderId: number) => {
+    handleUpdateOrder(orderId, 'Rejected');
+  };
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -62,12 +81,18 @@ export default function MyOrders() {
                 <Text style={styles.quantity}>Quantity: {detail.quantity}</Text>
               </View>
             ))}
+            {item.status.toLowerCase() === 'pending approval' && (
+              <View style={styles.buttonContainer}>
+                <Button title="Accept" onPress={() => handleAcceptOrder(item.id)} color="green" />
+                <Button title="Reject" onPress={() => handleRejectOrder(item.id)} color="red" />
+              </View>
+            )}
           </View>
         )}
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -92,6 +117,7 @@ const styles = StyleSheet.create({
   },
   orderStatus: {
     fontSize: 16,
+    color: 'gray',
   },
   orderDetail: {
     marginTop: 8,
@@ -103,16 +129,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'gray',
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
   pendingApproval: {
-    backgroundColor: '#FFFACD',
+    backgroundColor: '#FFFACD', // LemonChiffon
   },
   approved: {
-    backgroundColor: '#90EE90',
+    backgroundColor: '#90EE90', // LightGreen
   },
   rejected: {
-    backgroundColor: '#FF6347',
+    backgroundColor: '#FF6347', // Tomato
   },
   defaultStatus: {
     backgroundColor: 'white',
   },
 });
+
+export default OrdersAdmin;
