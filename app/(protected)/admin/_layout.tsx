@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import UsersAdmin from '../../../screens/UsersAdmin';
-import AddProduct from '../../../screens/AddProduct';
+import UsersAdmin from '@/screens/UsersAdmin';
+import AddProduct from '@/screens/AddProduct';
 import AdminIndex from '.';
 import OrdersAdmin from '@/screens/OrdersAdmin';
 

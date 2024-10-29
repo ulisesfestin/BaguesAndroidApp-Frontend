@@ -54,6 +54,16 @@ const DrawerLayout = () => {
                     <Ionicons name="business-outline" size={size} color={color} />
             }}
         />
+        <Drawer.Screen 
+            name="profile/index"
+            options={{
+                headerTitle: 'My profile',
+                headerTitleAlign: 'center',
+                drawerLabel: 'My account',
+                drawerIcon: ({ size, color }) => 
+                    <Ionicons name="people" size={size} color={color} />
+            }}
+        />
     </Drawer>
     </GestureHandlerRootView>
     )
