@@ -87,7 +87,10 @@ export default function MyProfile() {
             onChangeText={(text) => setUser({ ...user, phoneNumber: text })}
           />
           {editing ? (
-            <Button title="Save Changes" onPress={handleUpdate} disabled={updating} />
+            <View style={styles.buttonContainer}>
+              <Button color={"red"} title="Cancel" onPress={() => setEditing(false)} />
+              <Button color={"green"} title="Save Changes" onPress={handleUpdate} disabled={updating} />
+            </View>
           ) : (
             <Button title="Edit Profile" onPress={() => setEditing(true)} />
           )}
@@ -126,5 +129,10 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     paddingHorizontal: 8,
     backgroundColor: 'white',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 16,
   },
 });
