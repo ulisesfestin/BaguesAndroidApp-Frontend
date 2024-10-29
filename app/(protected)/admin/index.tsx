@@ -9,8 +9,8 @@ const options = [
     value: 'AddProduct'
   },
   {
-    label: 'See users',
-    value: 'UserList'
+    label: 'Manage users',
+    value: 'UsersAdmin'
   },
   {
     label: 'Manage orders',

@@ -11,10 +11,6 @@ const options = [
     label: 'See my purchases',
     value: 'MyOrders'
   },
-  {
-    label: 'My profile',
-    value: 'MyProfile'
-  }
 ];
 
 

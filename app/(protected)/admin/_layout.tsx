@@ -1,8 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import AdminHome from '../../../screens/AdminHome';
-import AddProduct from '../../../screens/AddProduct';
-import UserList from '../../../screens/UserList';
+import UsersAdmin from '@/screens/UsersAdmin';
+import AddProduct from '@/screens/AddProduct';
 import AdminIndex from '.';
 import OrdersAdmin from '@/screens/OrdersAdmin';
 
@@ -18,8 +17,12 @@ export default function AdminScreen() {
         options={{headerShown: false}}
       />
       <AdminStack.Screen 
-        name="AdminHome"
-        component={AdminHome} 
+        name="UsersAdmin"
+        component={UsersAdmin}
+        options={{
+          headerTitle: 'Manage Users',
+          headerTitleAlign: 'center',
+        }}  
       />
       <AdminStack.Screen 
         name="AddProduct"  
@@ -36,10 +39,6 @@ export default function AdminScreen() {
             headerTitle: 'Manage Orders',
             headerTitleAlign: 'center',
         }} 
-      />
-      <AdminStack.Screen 
-        name="UserList"  
-        component={UserList} 
       />
     </AdminStack.Navigator>
   );
