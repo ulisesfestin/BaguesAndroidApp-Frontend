@@ -1,7 +1,9 @@
-import { View, Text, TextInput, Button, KeyboardAvoidingView, StyleSheet, Alert } from 'react-native'
+import { View, Text, TextInput, Button, KeyboardAvoidingView, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native'
 import React, { useState, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useFocusEffect } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const Page = () => {
   const { onLogin, onRegister } = useAuth() 
@@ -12,6 +14,7 @@ const Page = () => {
   const [password, setPassword] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -51,9 +54,12 @@ const Page = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
+      <Image 
+        source={require("../assets/images/logo-bagues.webp")}
+        style={styles.logo}
+      />
       <Text>{isSignUp ? 'Sign Up' : 'Sign In'}</Text>
 
-      {/* Formulario Sign In */}
       <TextInput 
         placeholder="Username"
         value={username}
@@ -61,7 +67,6 @@ const Page = () => {
         style={styles.input}
       />
 
-      {/* Campos adicionales para Sign Up */}
       {isSignUp && (
         <>
           <TextInput 
@@ -91,36 +96,47 @@ const Page = () => {
         </>
       )}
 
-      <TextInput 
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={styles.input}
-      />
+      <View style={styles.passwordContainer}>
+        <TextInput 
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+          style={styles.passwordInput}
+        />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Ionicons name={showPassword ? "eye-off" : "eye"} size={24} color="gray" />
+        </TouchableOpacity>
+      </View>
 
-      {/* Botón para enviar el formulario */}
       <Button 
         title={isSignUp ? 'Sign Up' : 'Sign In'} 
         onPress={isSignUp ? handleRegister : handleLogin} 
       />
 
-      {/* Botón para alternar entre Sign In y Sign Up */}
       <Button 
         title={isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"} 
         onPress={() => setIsSignUp(!isSignUp)} 
         color="gray"
       />
+
+      <Text style={styles.footer}>Developed by Ulises Festín</Text>
     </KeyboardAvoidingView>
   )
 }
 
-// Stylesheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 16,
+  },
+  logo: {
+    width: 320,
+    height: 75,
+    marginBottom: 50,
+    alignSelf: 'center',
   },
   input: {
     width: '80%',
@@ -129,7 +145,28 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 5
-  }
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+    width: '80%',
+  },
+  passwordInput: {
+    flex: 1,
+    height: 40,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 10,
+    textAlign: 'center',
+    color: 'gray',
+  },
 })
 
 export default Page
