@@ -1,9 +1,9 @@
 import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import apiClient from '../api/apiClient'; // Importa la instancia configurada de Axios
-import { showAlert } from '@/utils/alerts'; // Importa la función showAlert
-import { Picker } from '@react-native-picker/picker'; // Importa Picker desde el paquete correcto
-import { User } from '@/types/types'; // Importa el tipo User
+import apiClient from '../api/apiClient'; 
+import { showAlert } from '@/utils/alerts'; 
+import { Picker } from '@react-native-picker/picker'; 
+import { User } from '@/types/types'; 
 
 
 const UsersAdmin = () => {

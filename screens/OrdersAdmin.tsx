@@ -135,13 +135,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   pendingApproval: {
-    backgroundColor: '#FFFACD', // LemonChiffon
+    backgroundColor: '#FFFACD', 
   },
   approved: {
-    backgroundColor: '#90EE90', // LightGreen
+    backgroundColor: '#90EE90',
   },
   rejected: {
-    backgroundColor: '#FF6347', // Tomato
+    backgroundColor: '#FF6347', 
   },
   defaultStatus: {
     backgroundColor: 'white',

@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { showAlert } from '@/utils/alerts';
 
 
 const Page = () => {
@@ -29,7 +30,7 @@ const Page = () => {
 
   const handleLogin = () => {
     if (!username || !password) {
-      Alert.alert('Error', 'Username and password are required')
+      showAlert('Error, username and password are required')
       return
     }
 
@@ -38,7 +39,7 @@ const Page = () => {
 
   const handleRegister = () => {
     if (!username || !email || !firstName || !lastName || !password || !phoneNumber) {
-      Alert.alert('Error', 'All fields are required')
+      showAlert('Error, all fields are required')
       return
     }
 

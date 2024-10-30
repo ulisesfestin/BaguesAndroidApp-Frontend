@@ -14,10 +14,8 @@ const firebaseConfig = {
   measurementId: measurementId,
 };
 
-// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 
-// Inicializar Firebase Storage
 const storage = getStorage(app);
 
 export { storage };

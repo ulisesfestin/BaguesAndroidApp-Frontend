@@ -66,7 +66,6 @@ const DrawerLayout = () => {
     return (
         <GestureHandlerRootView style={{flex: 1}}>
             <Drawer drawerContent={(props) => <CustomDrawerContent {...props} />}>
-                {/* Define las pantallas principales aquí */}
                 <Drawer.Screen 
                     name="index" 
                     options={{ headerTitle: 'Home', headerTitleAlign: 'center' }}
@@ -94,7 +93,7 @@ const DrawerLayout = () => {
 
 const styles = StyleSheet.create({
     drawerContent: {
-        flex: 1, // Ocupa todo el espacio disponible
+        flex: 1, 
     },
     logoutSection: {
         borderTopWidth: 1,
