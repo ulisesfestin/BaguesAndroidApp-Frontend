@@ -8,19 +8,12 @@ const StackLayout = () => {
   const segments = useSegments();
 
   useEffect(() => {
-    console.log('authState', authState);
-    console.log('segments', segments);
     const inAuthGroup = segments[0] === '(protected)';
-    console.log(segments)
     
     if (!authState?.authenticated && inAuthGroup) {
-      console.log('Redirecting to / because user is not authenticated');
-
-      router.replace('/');
-      console.log('segments', segments);
+      router.navigate("/");
     } else if (authState?.authenticated === true) {
-      console.log('Redirecting to (protected) because user is authenticated');
-      router.replace('/(protected)/');
+      router.push('/(protected)/');
     }
   }, [authState]);
   

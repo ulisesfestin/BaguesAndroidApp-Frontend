@@ -1,28 +1,21 @@
 import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native'
 import { NavigationProp } from '@react-navigation/native';
-import { useRouter } from 'expo-router';
 import React from 'react'
 
 const options = [
   {
-    label: 'Add product',
-    value: 'AddProduct'
+    label: 'List all our products',
+    value: 'ProductList'
   },
   {
-    label: 'Manage users',
-    value: 'UsersAdmin'
+    label: 'See my purchases',
+    value: 'MyOrders'
   },
-  {
-    label: 'Manage orders',
-    value: 'OrdersAdmin'
-  }
 ];
 
 
-export default function AdminIndex({navigation}: {navigation: NavigationProp<any>}) {
+export default function ClientIndex({navigation}: {navigation: NavigationProp<any>}) {
     
-    const router = useRouter();
-
     return (
       <View style={styles.container}>
         <FlatList
