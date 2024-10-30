@@ -92,6 +92,7 @@ const Page = () => {
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             style={styles.input}
+            keyboardType="phone-pad"
           />
         </>
       )}
